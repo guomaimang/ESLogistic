@@ -2,70 +2,67 @@ package tech.hirsun.eslogistic.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tech.hirsun.eslogistic.pojo.Pack;
-import tech.hirsun.eslogistic.pojo.WorkNode;
+import tech.hirsun.eslogistic.pojo.bo.Pack;
+import tech.hirsun.eslogistic.pojo.bo.WorkNode;
 import tech.hirsun.eslogistic.service.RouterService;
 import tech.hirsun.eslogistic.service.dataBean.RegisteredWorkNodes;
 
 import java.util.*;
 
 @Service
-public class SimpleRouterService implements RouterService {
+public class SimpleRouterServiceImpl implements RouterService {
 
     @Autowired
     private RegisteredWorkNodes registeredWorkNodes;
 
-    public String nextHop(Pack pack) {
-        WorkNode startWorkNode = registeredWorkNodes.getWorkNodes().get(pack.getSenderWorkNodeId());
+    public WorkNode nextHop(Pack pack) {
 
         // find the nearest center of the start station
-        String nearestCenterIDofStartStation = registeredWorkNodes.getStationToNearestCenter().get(pack.getSenderWorkNodeId());
-        WorkNode nearestStartCenter = registeredWorkNodes.getWorkNodes().get(nearestCenterIDofStartStation);
-        double distanceOfNearestCenterOfStartStation = startWorkNode.getCoordinate().calDistance(nearestStartCenter.getCoordinate());
-
+        WorkNode nearestCenterOfStartStation = registeredWorkNodes.getStationToNearestCenter().get(pack.getSenderWorkNode());
+        // find the distance of the nearest center of the start station
+        double distanceOfNearestCenterOfStartStation = pack.getSenderWorkNode().getCoordinate().calDistance(nearestCenterOfStartStation.getCoordinate());
         // find the nearest center of the end station
-        String nearestCenterOfEndStationID = registeredWorkNodes.getStationToNearestCenter().get(pack.getReceiverWorkNodeId());
-        WorkNode nearestCenterOfEndStation = registeredWorkNodes.getWorkNodes().get(nearestCenterOfEndStationID);
-        double distanceOfNearestCenterOfEndStation = nearestStartCenter.getCoordinate().calDistance(nearestCenterOfEndStation.getCoordinate());
-
+        WorkNode nearestCenterOfEndStation = registeredWorkNodes.getStationToNearestCenter().get(pack.getReceiverWorkNode());
+        // find the distance of the nearest center of the end station
+        double distanceOfNearestCenterOfEndStation = pack.getReceiverWorkNode().getCoordinate().calDistance(nearestCenterOfEndStation.getCoordinate());
         // find the distance of two centers
-        double distanceOfTwoCenters = nearestStartCenter.getCoordinate().calDistance(nearestCenterOfEndStation.getCoordinate());
+        double distanceOfTwoCenters = nearestCenterOfStartStation.getCoordinate().calDistance(nearestCenterOfEndStation.getCoordinate());
 
         // find the nearest airport of the start Center
-        String nearestAirportOfStartCenterID = registeredWorkNodes.getCenterToNearestAirport().get(nearestCenterIDofStartStation);
-        WorkNode nearestAirportOfStartCenter = registeredWorkNodes.getWorkNodes().get(nearestAirportOfStartCenterID);
-        double distanceOfNearestAirportOfStartCenter = nearestStartCenter.getCoordinate().calDistance(nearestAirportOfStartCenter.getCoordinate());
-
+        WorkNode nearestAirportOfStartCenter = registeredWorkNodes.getCenterToNearestAirport().get(nearestCenterOfStartStation);
+        // find the distance of the nearest airport of the start center
+        double distanceOfNearestAirportOfStartCenter = nearestCenterOfStartStation.getCoordinate().calDistance(nearestAirportOfStartCenter.getCoordinate());
         // find the nearest airport of the end center
-        String nearestAirportOfEndCenterID = registeredWorkNodes.getCenterToNearestAirport().get(nearestCenterOfEndStationID);
-        WorkNode nearestAirportOfEndStation = registeredWorkNodes.getWorkNodes().get(nearestAirportOfEndCenterID);
-        double distanceOfNearestAirportOfEndCenter = nearestCenterOfEndStation.getCoordinate().calDistance(nearestAirportOfEndStation.getCoordinate());
-
+        WorkNode nearestAirportOfEndCenter = registeredWorkNodes.getCenterToNearestAirport().get(nearestCenterOfEndStation);
+        // find the distance of the nearest airport of the end center
+        double distanceOfNearestAirportOfEndCenter = nearestCenterOfEndStation.getCoordinate().calDistance(nearestAirportOfEndCenter.getCoordinate());
         // find the distance of two airports
-        double distanceOfTwoAirports = nearestAirportOfStartCenter.getCoordinate().calDistance(nearestAirportOfEndStation.getCoordinate());
+        double distanceOfTwoAirports = nearestAirportOfStartCenter.getCoordinate().calDistance(nearestAirportOfEndCenter.getCoordinate());
 
 
         // if the priority is 1
         // start station -> nearest center of start station -> nearest center of end station -> end station
         if (pack.getPackType() == 1) {
             // if the pack is in the end station, return null
-            if (Objects.equals(pack.getCurrentWorkNodeId(), pack.getReceiverWorkNodeId())) {
+           if (Objects.equals(pack.getCurrentWorkNode(), pack.getReceiverWorkNode())) {
                 return null;
             }
             // if the pack is in the start station, return the nearest center of start station
-            if (Objects.equals(pack.getCurrentWorkNodeId(), pack.getSenderWorkNodeId())) {
-                return nearestCenterIDofStartStation;
+            if (Objects.equals(pack.getCurrentWorkNode(), pack.getSenderWorkNode())) {
+                return nearestCenterOfStartStation;
             }
 
             // if the pack is in the center
             // if the current center is the nearest center of the end station, return the end station
-            if (Objects.equals(pack.getCurrentWorkNodeId(), nearestCenterOfEndStation.getId())) {
-                return pack.getReceiverWorkNodeId();
+            if (Objects.equals(pack.getCurrentWorkNode(), nearestCenterOfEndStation)) {
+                return pack.getReceiverWorkNode();
             }
+
             // if the current center is the nearest center of the start station, return the nearest center of the end station
-            if (Objects.equals(pack.getCurrentWorkNodeId(), nearestCenterIDofStartStation)) {
-                return nearestCenterOfEndStation.getId();
+            if (Objects.equals(pack.getCurrentWorkNode(), nearestCenterOfStartStation)) {
+                return nearestCenterOfEndStation;
             }
+
         }
 
         // if the priority is 2
@@ -82,47 +79,53 @@ public class SimpleRouterService implements RouterService {
                 way = 1;
             }
 
+            // in the station
             // if the pack is in the end station, return null
-            if (Objects.equals(pack.getCurrentWorkNodeId(), pack.getReceiverWorkNodeId())) {
+            if (Objects.equals(pack.getCurrentWorkNode(), pack.getReceiverWorkNode())) {
                 return null;
             }
-
             // if the pack is in the start station
-            if (Objects.equals(pack.getCurrentWorkNodeId(), pack.getSenderWorkNodeId())) {
-                if (way == 0) {
-                    return nearestCenterIDofStartStation;
-                } else {
-                    return nearestAirportOfStartCenterID;
-                }
+            if (Objects.equals(pack.getCurrentWorkNode(), pack.getSenderWorkNode())) {
+                return nearestCenterOfStartStation;
             }
+
+            // in the airport
+            // if in the airport nearest to the end center
+            if (Objects.equals(pack.getCurrentWorkNode(), nearestAirportOfEndCenter)){
+                return nearestCenterOfEndStation;
+            }
+            // if in the airport nearest to the start center
+            if (Objects.equals(pack.getCurrentWorkNode(), nearestAirportOfStartCenter)){
+                    return nearestCenterOfEndStation;
+            }
+
+            // in the center
             // if in the center nearest to the end station
-            if (Objects.equals(pack.getCurrentWorkNodeId(), nearestCenterOfEndStation.getId())) {
-                return pack.getReceiverWorkNodeId();
+            if (Objects.equals(pack.getCurrentWorkNode(), nearestCenterOfEndStation)){
+                return pack.getReceiverWorkNode();
             }
             // if in the center nearest to the start station
-            if (Objects.equals(pack.getCurrentWorkNodeId(), nearestCenterIDofStartStation)) {
-                if (way == 0) {
-                    return nearestCenterOfEndStation.getId();
+            if (Objects.equals(pack.getCurrentWorkNode(), nearestCenterOfStartStation)){
+                if (way == 0){
+                    return nearestCenterOfEndStation;
                 } else {
-                    return nearestAirportOfEndCenterID;
+                    return nearestAirportOfEndCenter;
                 }
             }
-
-
         }
         return null;
     }
 
-    public List route(Map stationsBase, Map StationsPackAmount,
+    public List<String> route(Map stationsBase, Map StationsPackAmount,
                       Map RoutesPackAmount, String packFrom, String packTo, int packPriority) {
         return null;
     }
 
     private void studyRoute(){
-        Set<WorkNode> stationsSet = new HashSet<WorkNode>();
-        Set<WorkNode> centersSet = new HashSet<WorkNode>();
-        Set<WorkNode> airportsSet = new HashSet<WorkNode>();
-        for (WorkNode workNode : registeredWorkNodes.getWorkNodes().values()) {
+        Set<WorkNode> stationsSet = new HashSet<>();
+        Set<WorkNode> centersSet = new HashSet<>();
+        Set<WorkNode> airportsSet = new HashSet<>();
+        for (WorkNode workNode : registeredWorkNodes.getWorkNodesMap().values()) {
             if (workNode.getType() == 1) {
                 stationsSet.add(workNode);
             } else if (workNode.getType() == 2) {
@@ -144,7 +147,7 @@ public class SimpleRouterService implements RouterService {
                     nearestCenter = center;
                 }
             }
-            registeredWorkNodes.getStationToNearestCenter().put(station.getId(), nearestCenter.getId());
+            registeredWorkNodes.getStationToNearestCenter().put(station, nearestCenter);
         }
 
         // for each center, find the nearest airport
@@ -159,7 +162,7 @@ public class SimpleRouterService implements RouterService {
                     nearestAirport = airport;
                 }
             }
-            registeredWorkNodes.getCenterToNearestAirport().put(center.getId(), nearestAirport.getId());
+            registeredWorkNodes.getCenterToNearestAirport().put(center, nearestAirport);
         }
     }
 }

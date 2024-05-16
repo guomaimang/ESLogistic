@@ -1,4 +1,4 @@
-package tech.hirsun.eslogistic.pojo;
+package tech.hirsun.eslogistic.pojo.bo;
 
 import lombok.Data;
 import java.util.Date;
@@ -12,8 +12,8 @@ public class Transportation {
     private String type;
     private String license;
 
-    private Long startNodeId;
-    private Long endNodeId;
+    private WorkNode startWorkNodeId;
+    private WorkNode endWorkNodeId;
     // 1: Loading 2: In transit 3: Completed
     private Integer status;
     private Integer packNum;

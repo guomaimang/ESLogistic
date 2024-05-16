@@ -1,4 +1,4 @@
-package tech.hirsun.eslogistic.pojo;
+package tech.hirsun.eslogistic.pojo.bo;
 
 import lombok.Data;
 
@@ -12,12 +12,12 @@ public class Pack {
     // sender info
     private String senderName;
     private String senderPhone;
-    private String senderWorkNodeId;
+    private WorkNode senderWorkNode;
 
     // receiver info
     private String receiverName;
     private String receiverPhone;
-    private String receiverWorkNodeId;
+    private WorkNode receiverWorkNode;
 
     // pack info, 2: quick pack 1: normal pack
     private Integer packType;
@@ -37,9 +37,9 @@ public class Pack {
      */
     private Integer status;
     // if status is 2, this field is valid, else null.
-    private Long currentTransportationId;
+    private Transportation currentTransportation;
     // if status is 1/4/5/6/7, this field is valid, else null.
-    private String currentWorkNodeId;
+    private WorkNode currentWorkNode;
     // ["s1", "a1", "a2", "s5"]
-    private List plannedRoute = new ArrayList<String>();
+    private List<String> plannedRoute = new ArrayList<>();
 }

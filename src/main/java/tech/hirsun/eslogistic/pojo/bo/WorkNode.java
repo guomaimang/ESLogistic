@@ -1,4 +1,4 @@
-package tech.hirsun.eslogistic.pojo;
+package tech.hirsun.eslogistic.pojo.bo;
 
 import lombok.Data;
 
