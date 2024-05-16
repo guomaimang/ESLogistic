@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BDPack {
+public class DBPack {
 
     private Long id;
 
@@ -46,6 +46,5 @@ public class BDPack {
     // if status is 1/4/5/6/7, this field is valid, else null.
     private String currentWorkNodeId;
     // ["s1", "a1", "a2", "s5"]
-    private List plannedRoute = new ArrayList<String>();
-
+    private List<String> plannedRoute = new ArrayList<>();
 }

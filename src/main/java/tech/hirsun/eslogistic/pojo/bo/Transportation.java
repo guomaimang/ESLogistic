@@ -12,8 +12,8 @@ public class Transportation {
     private String type;
     private String license;
 
-    private WorkNode startWorkNodeId;
-    private WorkNode endWorkNodeId;
+    private String startWorkNodeId;
+    private String endWorkNodeId;
     // 1: Loading 2: In transit 3: Completed
     private Integer status;
     private Integer packNum;

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BDWorkNode {
+public class DBWorkNode {
 
     private String id;
 
@@ -18,7 +18,5 @@ public class BDWorkNode {
 
     // 1: normal 0: offline
     private Integer status;
-    // only for redis
-    private Integer waitPackNum;
 
 }
