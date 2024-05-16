@@ -3,6 +3,8 @@ package tech.hirsun.eslogistic.pojo.po;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tech.hirsun.eslogistic.pojo.bo.Coordinate;
+import tech.hirsun.eslogistic.pojo.bo.WorkNode;
 
 @Data
 @NoArgsConstructor
@@ -18,5 +20,14 @@ public class DBWorkNode {
 
     // 1: normal 0: offline
     private Integer status;
+
+    public WorkNode toWorkNode() {
+        WorkNode workNode = new WorkNode();
+        workNode.setId(id);
+        workNode.setType(type);
+        workNode.setCoordinate(new Coordinate(coordinateX, coordinateY));
+        workNode.setStatus(status);
+        return workNode;
+    }
 
 }

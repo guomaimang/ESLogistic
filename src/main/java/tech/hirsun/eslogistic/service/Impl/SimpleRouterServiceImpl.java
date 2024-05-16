@@ -74,7 +74,7 @@ public class SimpleRouterServiceImpl implements RouterService {
         if (pack.getPackType() == 2) {
             // 0: land 1: air
             int way = 0;
-            // Assume the average speed of the truck is 1/h, the average speed of the plane is 10/h
+            // Assume the average speed of the truck is 1/1 min, the average speed of the plane is 10/1min
             // economies of scale
             double travelViaCenterTime = distanceOfNearestCenterOfStartStation + distanceOfTwoCenters + distanceOfNearestCenterOfEndStation;
             double travelViaAirportTime = distanceOfNearestCenterOfStartStation + distanceOfNearestAirportOfStartCenter + distanceOfTwoAirports/10 + distanceOfNearestAirportOfEndCenter + distanceOfNearestCenterOfEndStation;

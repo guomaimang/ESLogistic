@@ -1,13 +1,14 @@
 package tech.hirsun.eslogistic.service.Impl;
 
-import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.hirsun.eslogistic.dao.WorkNodeDao;
 import tech.hirsun.eslogistic.pojo.bo.WorkNode;
+import tech.hirsun.eslogistic.pojo.po.DBWorkNode;
 import tech.hirsun.eslogistic.service.WorkNodeService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,11 @@ public class WorkNodeServiceImpl implements WorkNodeService {
         centersMap = new HashMap<>();
         airportsMap = new HashMap<>();
 
-        List<WorkNode> allWorkNodes = workNodeDao.queryAll();
+        List<DBWorkNode> allDBWorkNodes = workNodeDao.queryAll();
+        List<WorkNode> allWorkNodes = new ArrayList<>();
+        for (DBWorkNode dbWorkNode : allDBWorkNodes) {
+            allWorkNodes.add(dbWorkNode.toWorkNode());
+        }
 
         for (WorkNode workNode : allWorkNodes) {
             workNodesMap.put(workNode.getId(), workNode);

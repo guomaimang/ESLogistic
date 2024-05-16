@@ -1,5 +1,6 @@
 package tech.hirsun.eslogistic.emulator.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.hirsun.eslogistic.dao.PackDao;
@@ -8,8 +9,8 @@ import tech.hirsun.eslogistic.service.WorkNodeService;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Map;
 
+@Slf4j
 @Service
 public class CustomerService {
 
@@ -76,6 +77,7 @@ public class CustomerService {
             pack.setCurrentTransportationId(null);
 
             packDao.insert(pack);
+            log.info("Generated pack: {}", pack);
 
         }
     }
