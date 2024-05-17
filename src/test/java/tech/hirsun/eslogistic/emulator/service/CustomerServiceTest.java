@@ -13,13 +13,6 @@ import java.security.SecureRandom;
 @Slf4j
 class CustomerServiceTest {
 
-    @Autowired
-    private CustomerService customerService;
-
-    @Test
-    void batchGenPack() {
-        customerService.batchGenPack();
-    }
 
     @Test
     void randomTest() {

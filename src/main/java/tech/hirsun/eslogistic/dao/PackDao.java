@@ -2,7 +2,11 @@ package tech.hirsun.eslogistic.dao;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import tech.hirsun.eslogistic.pojo.bo.Pack;
 import tech.hirsun.eslogistic.pojo.po.DBPack;
+
+import java.util.List;
 
 @Mapper
 public interface PackDao {
@@ -19,7 +23,15 @@ public interface PackDao {
     public void insert(DBPack dbpack);
 
 
+    // By XML
+    public List<DBPack> query(@Param("id") Long id,
+                            @Param("senderWorkNodeId") String senderWorkNodeId,
+                            @Param("receiverWorkNodeId") String receiverWorkNodeId,
+                            @Param("status") Integer status,
+                            @Param("packType") Integer packType,
+                            @Param("currentWorkNodeId") String currentWorkNodeId,
+                            @Param("start") Integer start,
+                            @Param("pageSize") Integer pageSize);
 
-
-
+    public void update(DBPack dbPack);
 }

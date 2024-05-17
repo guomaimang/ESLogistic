@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tech.hirsun.eslogistic.dao.PackDao">
+    <select id="query" parameterType="java.util.Map" resultType="tech.hirsun.eslogistic.pojo.po.DBPack">
+        SELECT * FROM pack
+        <where>
+            <if test="id != null and id != ''"> AND id = #{id}, </if>
+            <if test="senderWorkNodeId != null and senderWorkNodeId != ''"> AND sender_work_node_id = #{senderWorkNodeId}, </if>
+            <if test="receiverWorkNodeId != null and receiverWorkNodeId != ''"> AND receiver_work_node_id = #{receiverWorkNodeId}, </if>
+            <if test="status != null and status != ''"> AND status = #{status}, </if>
+            <if test="createTime != null and createTime != ''"> AND create_time = #{createTime}, </if>
+            <if test="currentWorkNodeId != null and currentWorkNodeId != ''"> AND current_work_node_id = #{currentWorkNodeId}, </if>
+        </where>
+            ORDER BY id DESC LIMIT #{start}, #{pageSize}
+    </select>
+
+    <update id="update" parameterType="tech.hirsun.eslogistic.pojo.po.DBPack">
+        update pack
+        <set>
+            <if test="senderWorkNodeId != null">sender_work_node_id = #{senderWorkNodeId},</if>
+            <if test="receiverWorkNodeId != null">receiver_work_node_id = #{receiverWorkNodeId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="currentWorkNodeId != null">current_work_node_id = #{currentWorkNodeId},</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

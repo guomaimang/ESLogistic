@@ -1,9 +1,15 @@
 package tech.hirsun.eslogistic.pojo.bo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Transportation {
 
     private Long id;
@@ -19,4 +25,6 @@ public class Transportation {
     private Integer packNum;
 
     private Date createTime;
+
+
 }

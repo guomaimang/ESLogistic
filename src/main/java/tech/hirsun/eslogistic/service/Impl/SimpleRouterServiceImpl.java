@@ -1,5 +1,7 @@
 package tech.hirsun.eslogistic.service.Impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.hirsun.eslogistic.pojo.bo.Pack;
@@ -12,6 +14,7 @@ import java.util.*;
 @Service
 public class SimpleRouterServiceImpl implements RouterService {
 
+    private static final Logger log = LoggerFactory.getLogger(SimpleRouterServiceImpl.class);
     @Autowired
     private WorkNodeService workNodeService;
 
@@ -78,7 +81,7 @@ public class SimpleRouterServiceImpl implements RouterService {
             // economies of scale
             double travelViaCenterTime = distanceOfNearestCenterOfStartStation + distanceOfTwoCenters + distanceOfNearestCenterOfEndStation;
             double travelViaAirportTime = distanceOfNearestCenterOfStartStation + distanceOfNearestAirportOfStartCenter + distanceOfTwoAirports/10 + distanceOfNearestAirportOfEndCenter + distanceOfNearestCenterOfEndStation;
-            if (travelViaCenterTime > travelViaAirportTime) {
+            if (travelViaCenterTime >= travelViaAirportTime) {
                 way = 1;
             }
 
@@ -99,7 +102,7 @@ public class SimpleRouterServiceImpl implements RouterService {
             }
             // if in the airport nearest to the start center
             if (Objects.equals(pack.getCurrentWorkNode(), nearestAirportOfStartCenter)){
-                    return nearestCenterOfEndStation;
+                return nearestAirportOfEndCenter;
             }
 
             // in the center
@@ -112,7 +115,7 @@ public class SimpleRouterServiceImpl implements RouterService {
                 if (way == 0){
                     return nearestCenterOfEndStation;
                 } else {
-                    return nearestAirportOfEndCenter;
+                    return nearestAirportOfStartCenter;
                 }
             }
         }
@@ -144,7 +147,9 @@ public class SimpleRouterServiceImpl implements RouterService {
                 }
             }
             stationToNearestCenter.put(station, nearestCenter);
+            log.info("Station: {}, Nearest Center: {}", station.getId(), nearestCenter.getId());
         }
+
 
         // for each center, find the nearest airport
         for (WorkNode center : centersSet) {
@@ -159,6 +164,7 @@ public class SimpleRouterServiceImpl implements RouterService {
                 }
             }
             centerToNearestAirport.put(center, nearestAirport);
+            log.info("Center: {}, Nearest Airport: {}", center.getId(), nearestAirport.getId());
         }
     }
 }

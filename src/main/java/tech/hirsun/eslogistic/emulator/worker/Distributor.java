@@ -1,15 +1,14 @@
 package tech.hirsun.eslogistic.emulator.worker;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.stereotype.Service;
 import tech.hirsun.eslogistic.pojo.bo.WorkNode;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Service
 public class Distributor implements Runnable{
-    WorkNode belongToStation;
+    @Getter @Setter
+    private WorkNode belongToStation;
 
     public void run() {
         // distribute 10 pack every 1 second

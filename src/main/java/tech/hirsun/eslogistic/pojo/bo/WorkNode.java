@@ -3,6 +3,8 @@ package tech.hirsun.eslogistic.pojo.bo;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.LinkedBlockingQueue;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -17,7 +19,5 @@ public class WorkNode {
     // 1: normal 0: offline
     private Integer status;
 
-    // only for redis
-    // private Integer waitPackNum;
-
+    private LinkedBlockingQueue<Pack> packsStorage = new LinkedBlockingQueue<>();
 }
