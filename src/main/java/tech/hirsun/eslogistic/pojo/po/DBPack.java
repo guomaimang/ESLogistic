@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tech.hirsun.eslogistic.pojo.bo.Pack;
-import tech.hirsun.eslogistic.service.TransportationService;
+import tech.hirsun.eslogistic.pojo.bo.WorkNode;
 import tech.hirsun.eslogistic.service.WorkNodeService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -34,24 +33,23 @@ public class DBPack {
     // current status
     /*
     0: Waiting for pickup
-    1: In work node
+    1: In workNode
     2: In transit
-    3: Delivered
+    3. need to be delivered
+    4: Delivered
 
-    4: Waiting for delivery
     5: Rejected
     6: Lost
     7: Cancelled
      */
     private Integer status;
-    // if status is 2, this field is valid, else null.
-    private Long currentTransportationId;
-    // if status is 1/4/5/6/7, this field is valid, else null.
+    private WorkNode currentWorkNode;
     private String currentWorkNodeId;
     // ["s1", "a1", "a2", "s5"]
 //    private List<String> plannedRoute = new ArrayList<>();
+    private Date frozenTime;
 
-    public Pack toPack(WorkNodeService workNodeService, TransportationService transportationService) {
+    public Pack toPack(WorkNodeService workNodeService) {
         Pack pack = new Pack();
         pack.setId(id);
         pack.setSenderName(senderName);
@@ -64,7 +62,6 @@ public class DBPack {
 
         pack.setPackType(packType);
         pack.setStatus(status);
-//        pack.setCurrentTransportation(transportationService.getTransportationsMap().get(currentTransportationId));
 
         if (currentWorkNodeId != null) {
             pack.setCurrentWorkNode(workNodeService.getWorkNodesMap().get(currentWorkNodeId));

@@ -77,7 +77,6 @@ public class Customer {
             pack.setPackType((int) (Math.random() * 2) + 1);
 
             pack.setStatus(0);
-            pack.setCurrentTransportationId(null);
 
             packDao.insert(pack);
             log.info("Generated pack: {}", pack);

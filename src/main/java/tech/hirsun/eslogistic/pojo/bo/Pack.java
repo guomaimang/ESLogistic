@@ -3,6 +3,7 @@ package tech.hirsun.eslogistic.pojo.bo;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,20 +27,20 @@ public class Pack {
     // current status
     /*
     0: Waiting for pickup
-    1: Loading
+    1: In workNode
     2: In transit
-    3: Delivered
+    3. need to be delivered
+    4: Delivered
 
-    4: Waiting for delivery
     5: Rejected
     6: Lost
     7: Cancelled
      */
     private Integer status;
-    // if status is 2, this field is valid, else null.
-    private Transportation currentTransportation;
-    // if status is 1/4/5/6/7, this field is valid, else null.
     private WorkNode currentWorkNode;
+
     // ["s1", "a1", "a2", "s5"]
     private List<String> plannedRoute = new ArrayList<>();
+
+    private Date frozenTime;
 }

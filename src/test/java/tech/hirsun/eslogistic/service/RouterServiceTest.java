@@ -22,9 +22,6 @@ class RouterServiceTest {
     @Autowired
     private RouterService routerService;
 
-    @Autowired
-    private TransportationService transportationService;
-
     @Test
     void nextHop() {
         DBPack dbPack = new DBPack();
@@ -79,11 +76,11 @@ class RouterServiceTest {
         dbPack.setPackType((int) (Math.random() * 2) + 1);
 
         dbPack.setStatus(0);
-        dbPack.setCurrentTransportationId(null);
+
 
         log.info("Start station: {}, end station: {}", dbPack.getSenderWorkNodeId(), dbPack.getReceiverWorkNodeId());
 
-        Pack pack = dbPack.toPack(workNodeService, transportationService);
+        Pack pack = dbPack.toPack(workNodeService);
         pack.setPackType(2);
 
         WorkNode nextHop = routerService.nextHop(pack);

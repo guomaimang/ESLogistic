@@ -23,6 +23,7 @@
             <if test="receiverWorkNodeId != null">receiver_work_node_id = #{receiverWorkNodeId},</if>
             <if test="status != null">status = #{status},</if>
             <if test="currentWorkNodeId != null">current_work_node_id = #{currentWorkNodeId},</if>
+            <if test="frozenTime != null">frozen_time = #{frozenTime},</if>
         </set>
         where id = #{id}
     </update>
