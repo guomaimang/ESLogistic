@@ -38,11 +38,12 @@ public class NodeProcessor implements Runnable{
                     dbPacks = packDao.query(null, belongToNode.getId(), null,
                             0, null, null, 0, 60);
                     for (DBPack dbPack : dbPacks) {
-                            Pack pack = dbPack.toPack(workNodeService);
-                            dbPack.setCurrentWorkNodeId(routerService.nextHop(pack).getId());
-                            dbPack.setStatus(1);
-                            packDao.update(dbPack);
-                            log.info("Station: pack " + pack.getId() + " collected by " + belongToNode.getId());
+                        log.info("Pack: " + dbPack.getId() + " status " + dbPack.getStatus());
+                        Pack pack = dbPack.toPack(workNodeService);
+                        dbPack.setCurrentWorkNodeId(belongToNode.getId());
+                        dbPack.setStatus(1);
+                        packDao.update(dbPack);
+                        log.info("Station: pack " + pack.getId() + " collected by " + belongToNode.getId());
                     }
 
                     // process pack has been collected, send it out, process 30 pack 1 minutes
@@ -51,11 +52,15 @@ public class NodeProcessor implements Runnable{
                     for (DBPack dbPack : dbPacks) {
                         Pack pack = dbPack.toPack(workNodeService);
                         WorkNode nextHop = routerService.nextHop(pack);
-                        dbPack.getFrozenTime().setTime(new Date().getTime() + (long) pack.getCurrentWorkNode().getCoordinate().calDistance(nextHop.getCoordinate()) * 1000);
-                        dbPack.setCurrentWorkNodeId(nextHop.getId());
+                        if (nextHop!= null) {
+                            Date frozenTime = new Date();
+                            frozenTime.setTime(new Date().getTime() + (long) pack.getCurrentWorkNode().getCoordinate().calDistance(nextHop.getCoordinate()) * 1000);
+                            dbPack.setFrozenTime(frozenTime);
+                            dbPack.setCurrentWorkNodeId(nextHop.getId());
+                        }
                         dbPack.setStatus(2);
                         packDao.update(dbPack);
-                        log.info("Station: pack " + pack.getId() + " sent out by " + belongToNode.getId() + " to " + nextHop.getId());
+                        log.info("Station: pack " + pack.getId() + " sent out by " + belongToNode.getId() + " to " + (nextHop != null ? nextHop.getId() : null));
                     }
 
                     // process pack need to be received, process 30 pack 1 minutes
@@ -73,10 +78,13 @@ public class NodeProcessor implements Runnable{
 
                     // process pack need to be delivered, process 10 pack 1 minutes
                     dbPacks = packDao.query(null, null , belongToNode.getId(),
-                            3, null, null, 0, 10);
+                            3, null, belongToNode.getId(), 0, 10);
                     for (DBPack dbPack : dbPacks) {
                         Pack pack = dbPack.toPack(workNodeService);
-                        dbPack.setCurrentWorkNodeId(routerService.nextHop(pack).getId());
+                        WorkNode nextHop = routerService.nextHop(pack);
+                        if (nextHop!= null) {
+                            dbPack.setCurrentWorkNodeId(nextHop.getId());
+                        }
                         dbPack.setStatus(4);
                         packDao.update(dbPack);
                         log.info("Station: pack " + pack.getId() + " delivered by " + belongToNode.getId());
@@ -91,11 +99,15 @@ public class NodeProcessor implements Runnable{
                     for (DBPack dbPack : dbPacks) {
                         Pack pack = dbPack.toPack(workNodeService);
                         WorkNode nextHop = routerService.nextHop(pack);
-                        dbPack.getFrozenTime().setTime(new Date().getTime() + (long) pack.getCurrentWorkNode().getCoordinate().calDistance(nextHop.getCoordinate()) * 1000);
-                        dbPack.setCurrentWorkNodeId(nextHop.getId());
+                        if (nextHop!= null) {
+                            Date frozenTime = new Date();
+                            frozenTime.setTime(new Date().getTime() + (long) pack.getCurrentWorkNode().getCoordinate().calDistance(nextHop.getCoordinate()) * 1000);
+                            dbPack.setFrozenTime(frozenTime);
+                            dbPack.setCurrentWorkNodeId(nextHop.getId());
+                        }
                         dbPack.setStatus(2);
                         packDao.update(dbPack);
-                        log.info("Center: pack " + pack.getId() + " sent out by " + belongToNode.getId() + " to " + nextHop.getId());
+                        log.info("Center: pack " + pack.getId() + " sent out by " + belongToNode.getId() + " to " + (nextHop != null ? nextHop.getId() : null));
                     }
 
                     // process pack need to be received, process at most 240 packs every 1 minutes
@@ -105,7 +117,9 @@ public class NodeProcessor implements Runnable{
                         if (dbPack.getFrozenTime().getTime() < new Date().getTime()) {
                             Pack pack = dbPack.toPack(workNodeService);
                             WorkNode nextHop = routerService.nextHop(pack);
-                            dbPack.setCurrentWorkNodeId(nextHop.getId());
+                            if (nextHop!= null) {
+                                dbPack.setCurrentWorkNodeId(nextHop.getId());
+                            }
                             dbPack.setStatus(1);
                             packDao.update(dbPack);
                             log.info("Center: pack " + pack.getId() + " received by " + belongToNode.getId());
@@ -120,8 +134,12 @@ public class NodeProcessor implements Runnable{
                     for (DBPack dbPack : dbPacks) {
                         Pack pack = dbPack.toPack(workNodeService);
                         WorkNode nextHop = routerService.nextHop(pack);
-                        dbPack.getFrozenTime().setTime(new Date().getTime() + (long) pack.getCurrentWorkNode().getCoordinate().calDistance(nextHop.getCoordinate()) * 100);
-                        dbPack.setCurrentWorkNodeId(nextHop.getId());
+                        if (nextHop!= null) {
+                            Date frozenTime = new Date();
+                            frozenTime.setTime(new Date().getTime() + (long) pack.getCurrentWorkNode().getCoordinate().calDistance(nextHop.getCoordinate()) * 100);
+                            dbPack.setFrozenTime(frozenTime);
+                            dbPack.setCurrentWorkNodeId(nextHop.getId());
+                        }
                         dbPack.setStatus(2);
                         packDao.update(dbPack);
                         log.info("Airport: pack " + pack.getId() + " sent out by " + belongToNode.getId() + " to " + nextHop.getId());
@@ -133,15 +151,18 @@ public class NodeProcessor implements Runnable{
                     for (DBPack dbPack : dbPacks) {
                         if (dbPack.getFrozenTime().getTime() < new Date().getTime()) {
                             Pack pack = dbPack.toPack(workNodeService);
+
                             WorkNode nextHop = routerService.nextHop(pack);
-                            dbPack.setCurrentWorkNodeId(nextHop.getId());
+                            if (nextHop!= null) {
+                                dbPack.setCurrentWorkNodeId(nextHop.getId());
+                            }
                             dbPack.setStatus(1);
                             packDao.update(dbPack);
                             log.info("Airport: pack " + pack.getId() + " received by " + belongToNode.getId());
                         }
                     }
                 }
-                Thread.sleep(1000 * 60);
+                Thread.sleep(1000 * 10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -20,4 +20,5 @@ public class WorkNode {
     private Integer status;
 
     private LinkedBlockingQueue<Pack> packsStorage = new LinkedBlockingQueue<>();
+
 }

@@ -10,6 +10,7 @@ import tech.hirsun.eslogistic.service.WorkNodeService;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Date;
 
 @Component
 @EnableScheduling
@@ -75,7 +76,7 @@ public class Customer {
 
             // randomly select a pack type
             pack.setPackType((int) (Math.random() * 2) + 1);
-
+            pack.setFrozenTime(new Date());
             pack.setStatus(0);
 
             packDao.insert(pack);
