@@ -3,6 +3,7 @@ package tech.hirsun.eslogistic.emulator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tech.hirsun.eslogistic.dao.PackDao;
 import tech.hirsun.eslogistic.pojo.po.DBPack;
@@ -23,7 +24,7 @@ public class Customer {
     @Autowired
     private WorkNodeService workNodeService;
 
-//    @Scheduled(cron ="*/10 * * * * ?")
+    @Scheduled(cron ="*/10 * * * * ?")
     public void batchGenPack() {
         // randomly gen 3 packs
         for (int i = 0; i < 3; i++) {
@@ -80,7 +81,7 @@ public class Customer {
             pack.setStatus(0);
 
             packDao.insert(pack);
-            log.info("Generated pack: {}", pack);
+            log.info("Generated pack: " + pack.getId() + " from " + pack.getSenderWorkNodeId() + " to " + pack.getReceiverWorkNodeId() + " type " + pack.getPackType());
 
         }
     }

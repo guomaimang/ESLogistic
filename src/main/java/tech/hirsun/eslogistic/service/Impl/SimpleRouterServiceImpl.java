@@ -147,7 +147,6 @@ public class SimpleRouterServiceImpl implements RouterService {
                 }
             }
             stationToNearestCenter.put(station, nearestCenter);
-            log.info("Station: {}, Nearest Center: {}", station.getId(), nearestCenter.getId());
         }
 
 
@@ -164,7 +163,6 @@ public class SimpleRouterServiceImpl implements RouterService {
                 }
             }
             centerToNearestAirport.put(center, nearestAirport);
-            log.info("Center: {}, Nearest Airport: {}", center.getId(), nearestAirport.getId());
         }
     }
 }

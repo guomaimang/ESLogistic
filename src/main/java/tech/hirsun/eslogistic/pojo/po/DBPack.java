@@ -43,7 +43,6 @@ public class DBPack {
     7: Cancelled
      */
     private Integer status;
-    private WorkNode currentWorkNode;
     private String currentWorkNodeId;
     // ["s1", "a1", "a2", "s5"]
 //    private List<String> plannedRoute = new ArrayList<>();
@@ -52,6 +51,7 @@ public class DBPack {
     public Pack toPack(WorkNodeService workNodeService) {
         Pack pack = new Pack();
         pack.setId(id);
+
         pack.setSenderName(senderName);
         pack.setSenderPhone(senderPhone);
         pack.setSenderWorkNode(workNodeService.getWorkNodesMap().get(senderWorkNodeId));
@@ -62,10 +62,10 @@ public class DBPack {
 
         pack.setPackType(packType);
         pack.setStatus(status);
-
         if (currentWorkNodeId != null) {
             pack.setCurrentWorkNode(workNodeService.getWorkNodesMap().get(currentWorkNodeId));
         }
+        pack.setFrozenTime(frozenTime);
 
         return pack;
     }

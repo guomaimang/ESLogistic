@@ -14,11 +14,11 @@ public interface PackDao {
     @Insert("insert into pack(" +
             "sender_name, sender_phone, sender_work_node_id, " +
             "receiver_name, receiver_phone, receiver_work_node_id, " +
-            "pack_type, status, current_work_node_id) " +
+            "pack_type, status, current_work_node_id, frozen_time) " +
             "values(" +
             " #{senderName}, #{senderPhone}, #{senderWorkNodeId},"
             + "#{receiverName}, #{receiverPhone}, #{receiverWorkNodeId}," +
-              "#{packType}, #{status}, #{currentWorkNodeId})")
+              "#{packType}, #{status}, #{currentWorkNodeId}, #{frozenTime})")
     public void insert(DBPack dbpack);
 
 

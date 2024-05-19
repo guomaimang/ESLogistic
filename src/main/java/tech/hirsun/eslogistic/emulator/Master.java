@@ -3,6 +3,7 @@ package tech.hirsun.eslogistic.emulator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tech.hirsun.eslogistic.dao.PackDao;
+import tech.hirsun.eslogistic.dao.PackRecordDao;
 import tech.hirsun.eslogistic.pojo.bo.WorkNode;
 import tech.hirsun.eslogistic.service.RouterService;
 import tech.hirsun.eslogistic.service.WorkNodeService;
@@ -17,11 +18,13 @@ public class Master {
     private PackDao packDao;
     @Autowired
     private RouterService routerService;
+    @Autowired
+    private PackRecordDao packRecordDao;
 
     public void initService() {
         // create node processor for each workNode
         for (WorkNode node : workNodeService.getWorkNodesMap().values()) {
-            NodeProcessor nodeProcessor = new NodeProcessor(node, packDao, workNodeService, routerService);
+            NodeProcessor nodeProcessor = new NodeProcessor(node, packDao, packRecordDao,workNodeService, routerService);
             Thread thread = new Thread(nodeProcessor);
             thread.start();
         }
