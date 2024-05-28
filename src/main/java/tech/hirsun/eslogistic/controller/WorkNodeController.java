@@ -32,7 +32,7 @@ public class WorkNodeController {
 
     @GetMapping("/count")
     public Result count() {
-        return Result.success(workNodeService.count(null));
+        return Result.success(workNodeService.count());
     }
 
 }

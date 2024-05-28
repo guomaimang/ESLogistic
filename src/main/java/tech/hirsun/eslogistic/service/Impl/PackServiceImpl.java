@@ -9,6 +9,7 @@ import tech.hirsun.eslogistic.pojo.po.DBPack;
 import tech.hirsun.eslogistic.service.PackService;
 import tech.hirsun.eslogistic.service.WorkNodeService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,7 +26,13 @@ public class PackServiceImpl implements PackService {
         int count = packDao.count(id, null, null, status, null, null, keyword, null, null);
 
         int start = (pageNum-1) * pageSize;
-        List<DBPack> packs = packDao.query(id, null, null, status, null, null, keyword, start, pageSize);
+        List<DBPack> DBPacks = packDao.query(id, null, null, status, null, null, keyword, start, pageSize);
+
+        // convert DBPack to Pack, and save it to packs
+        List<Pack> packs = new ArrayList<>();
+        for (DBPack dbPack : DBPacks) {
+            packs.add(dbPack.toPack(workNodeService));
+        }
 
         return new PageBean(count, packs, Math.floorDiv(count, pageSize) + 1, pageNum);
     }

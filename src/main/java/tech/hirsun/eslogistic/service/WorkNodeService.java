@@ -18,6 +18,6 @@ public interface WorkNodeService {
 
     public WorkNode info(String id);
 
-    public int count(String id);
+    public int count();
 
 }

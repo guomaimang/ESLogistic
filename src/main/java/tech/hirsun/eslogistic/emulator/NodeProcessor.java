@@ -39,7 +39,7 @@ public class NodeProcessor implements Runnable{
                 if (belongToNode.getType() == 1) {
                     // process collection: 10 pack 1 minutes
                     dbPacks = packDao.query(null, belongToNode.getId(), null,
-                            0, null, null, 0, 60);
+                            0, null, null, null,0, 60);
                     for (DBPack dbPack : dbPacks) {
                         log.info("Pack: " + dbPack.getId() + " status " + dbPack.getStatus());
                         Pack pack = dbPack.toPack(workNodeService);
@@ -53,7 +53,7 @@ public class NodeProcessor implements Runnable{
 
                     // process pack has been collected, send it out, process 30 pack 1 minutes
                     dbPacks = packDao.query(null, belongToNode.getId(), null,
-                            1, null, belongToNode.getId(), 0, 30);
+                            1, null, belongToNode.getId(), null,0, 30);
                     for (DBPack dbPack : dbPacks) {
                         Pack pack = dbPack.toPack(workNodeService);
                         WorkNode nextHop = routerService.nextHop(pack);
@@ -73,7 +73,7 @@ public class NodeProcessor implements Runnable{
 
                     // process pack need to be received, process 30 pack 1 minutes
                     dbPacks = packDao.query(null, null , belongToNode.getId(),
-                            2, null, belongToNode.getId(), 0, 10);
+                            2, null, belongToNode.getId(), null,0, 10);
                     for (DBPack dbPack : dbPacks) {
                         if (dbPack.getFrozenTime().getTime() < new Date().getTime()) {
                             Pack pack = dbPack.toPack(workNodeService);
@@ -88,7 +88,7 @@ public class NodeProcessor implements Runnable{
 
                     // process pack need to be delivered, process 10 pack 1 minutes
                     dbPacks = packDao.query(null, null , belongToNode.getId(),
-                            3, null, belongToNode.getId(), 0, 10);
+                            3, null, belongToNode.getId(), null,0, 10);
                     for (DBPack dbPack : dbPacks) {
                         Pack pack = dbPack.toPack(workNodeService);
                         WorkNode nextHop = routerService.nextHop(pack);
@@ -126,7 +126,7 @@ public class NodeProcessor implements Runnable{
 
                     // process pack need to be received, process at most 240 packs every 1 minutes
                     dbPacks = packDao.query(null, null, null,
-                            2, null, belongToNode.getId(), 0, 240);
+                            2, null, belongToNode.getId(), null,0, 240);
                     for (DBPack dbPack : dbPacks) {
                         if (dbPack.getFrozenTime().getTime() < new Date().getTime()) {
                             Pack pack = dbPack.toPack(workNodeService);
@@ -165,7 +165,7 @@ public class NodeProcessor implements Runnable{
 
                     // process pack need to be received, process at most 120 packs every 1 minutes
                     dbPacks = packDao.query(null, null, null,
-                            2, null, belongToNode.getId(), 0, 120);
+                            2, null, belongToNode.getId(), null,0, 120);
                     for (DBPack dbPack : dbPacks) {
                         if (dbPack.getFrozenTime().getTime() < new Date().getTime()) {
                             Pack pack = dbPack.toPack(workNodeService);
