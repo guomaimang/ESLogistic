@@ -41,7 +41,5 @@ public interface PackDao {
                      @Param("status") Integer status,
                      @Param("packType") Integer packType,
                      @Param("currentWorkNodeId") String currentWorkNodeId,
-                     @Param("keyword") String keyword,
-                     @Param("start") Integer start,
-                     @Param("pageSize") Integer pageSize);
+                     @Param("keyword") String keyword);
 }

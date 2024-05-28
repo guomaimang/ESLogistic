@@ -24,7 +24,7 @@ public class Customer {
     @Autowired
     private WorkNodeService workNodeService;
 
-//    @Scheduled(cron ="*/10 * * * * ?")
+    @Scheduled(cron ="*/10 * * * * ?")
     public void batchGenPack() {
         // randomly gen 3 packs
         for (int i = 0; i < 3; i++) {

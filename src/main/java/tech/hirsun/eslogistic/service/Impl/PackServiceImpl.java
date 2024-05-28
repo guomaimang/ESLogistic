@@ -27,8 +27,8 @@ public class PackServiceImpl implements PackService {
     private WorkNodeService workNodeService;
 
     @Override
-    public PageBean list(Long id, String keyword, int pageNum, int pageSize, int status) {
-        int count = packDao.count(id, null, null, status, null, null, keyword, null, null);
+    public PageBean list(Long id, String keyword, Integer pageNum, Integer pageSize, Integer status) {
+        int count = packDao.count(id, null, null, status, null, null, keyword);
 
         int start = (pageNum-1) * pageSize;
         List<DBPack> DBPacks = packDao.query(id, null, null, status, null, null, keyword, start, pageSize);
@@ -44,7 +44,7 @@ public class PackServiceImpl implements PackService {
 
     @Override
     public Pack info(Long id) {
-        return packDao.query(id, null, null, null, null, null, null, null, null).get(0).toPack(workNodeService);
+        return packDao.query(id, null, null, null, null, null, null, 0, 1).get(0).toPack(workNodeService);
     }
 
     @Override
@@ -55,11 +55,16 @@ public class PackServiceImpl implements PackService {
 
     @Override
     public int count() {
-        return packDao.count(null, null, null, null, null, null, null, null, null);
+        return packDao.count(null, null, null, null, null, null, null);
     }
 
     @Override
-    public List<PackRecord> getPackRecords(Long id) {
-        return packRecordDao.query(id);
+    public PageBean getPackRecords(Long id, Integer pageNum, Integer pageSize) {
+        int count = packRecordDao.count(id);
+
+        int start = (pageNum-1) * pageSize;
+        List<PackRecord> PackRecords = packRecordDao.query(id, start, pageSize);
+
+        return new PageBean(count, PackRecords, Math.floorDiv(count, pageSize) + 1, pageNum);
     }
 }

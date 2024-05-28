@@ -28,9 +28,11 @@ public class PackController {
         return Result.success(packService.info(id));
     }
 
-    @GetMapping("/packrecords")
-    public Result packrecords(@RequestParam Long id) {
-        return Result.success(packService.getPackRecords(id));
+    @GetMapping("/records")
+    public Result records(@RequestParam Long id,
+                          @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
+                          @RequestParam(name = "pageSize",defaultValue = "10") Integer pageSize) {
+        return Result.success(packService.getPackRecords(id, pageNum, pageSize));
     }
 
     @PostMapping("/create")

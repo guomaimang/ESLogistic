@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tech.hirsun.eslogistic.dao.PackRecordDao">
+
+    <select id="query" parameterType="java.util.Map" resultType="tech.hirsun.eslogistic.pojo.bo.PackRecord">
+        SELECT * FROM pack_record
+        WHERE pack_id = #{packId}
+            ORDER BY id ASC LIMIT #{start}, #{pageSize}
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*) FROM pack_record
+        WHERE pack_id = #{packId}
+    </select>
+
+</mapper>

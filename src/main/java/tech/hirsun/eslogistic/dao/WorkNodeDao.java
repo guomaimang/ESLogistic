@@ -16,7 +16,7 @@ public interface WorkNodeDao {
 
     // By XML
 
-    public int count(String id, Integer start, Integer pageSize);
+    public int count(String id);
     public List<DBWorkNode> query(String id, Integer start, Integer pageSize);
 
 

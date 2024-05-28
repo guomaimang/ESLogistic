@@ -61,7 +61,7 @@ public class WorkNodeServiceImpl implements WorkNodeService {
 
     @Override
     public PageBean list(String id, int pageNum, int pageSize) {
-        int count = workNodeDao.count(id, (pageNum - 1) * pageSize, pageSize);
+        int count = workNodeDao.count(id);
 
         int start = (pageNum - 1) * pageSize;
         List<DBWorkNode> dbWorkNodes = workNodeDao.query(id, start, pageSize);
@@ -76,12 +76,12 @@ public class WorkNodeServiceImpl implements WorkNodeService {
 
     @Override
     public WorkNode info(String id) {
-        return workNodeDao.query(id, null, null).get(0).toWorkNode();
+        return workNodeDao.query(id, 0, 1).get(0).toWorkNode();
     }
 
     @Override
     public int count() {
-        return workNodeDao.count(null,null, null);
+        return workNodeDao.count(null);
     }
 
 

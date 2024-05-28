@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PackService {
 
-    public PageBean list(Long id, String keyword, int pageNum, int pageSize, int status);
+    public PageBean list(Long id, String keyword, Integer pageNum, Integer pageSize, Integer status);
 
     public Pack info(Long id);
 
@@ -16,5 +16,5 @@ public interface PackService {
 
     public int count();
 
-    public List<PackRecord> getPackRecords(Long id);
+    public PageBean getPackRecords(Long id, Integer pageNum, Integer pageSize);
 }
