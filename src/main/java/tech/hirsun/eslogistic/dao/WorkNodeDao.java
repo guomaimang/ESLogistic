@@ -1,6 +1,5 @@
 package tech.hirsun.eslogistic.dao;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import tech.hirsun.eslogistic.pojo.po.DBWorkNode;

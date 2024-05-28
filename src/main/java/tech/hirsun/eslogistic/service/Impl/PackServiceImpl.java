@@ -3,7 +3,9 @@ package tech.hirsun.eslogistic.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.hirsun.eslogistic.dao.PackDao;
+import tech.hirsun.eslogistic.dao.PackRecordDao;
 import tech.hirsun.eslogistic.pojo.bo.Pack;
+import tech.hirsun.eslogistic.pojo.bo.PackRecord;
 import tech.hirsun.eslogistic.pojo.bo.PageBean;
 import tech.hirsun.eslogistic.pojo.po.DBPack;
 import tech.hirsun.eslogistic.service.PackService;
@@ -17,6 +19,9 @@ import java.util.List;
 public class PackServiceImpl implements PackService {
     @Autowired
     private PackDao packDao;
+
+    @Autowired
+    private PackRecordDao packRecordDao;
 
     @Autowired
     private WorkNodeService workNodeService;
@@ -51,5 +56,10 @@ public class PackServiceImpl implements PackService {
     @Override
     public int count() {
         return packDao.count(null, null, null, null, null, null, null, null, null);
+    }
+
+    @Override
+    public List<PackRecord> getPackRecords(Long id) {
+        return packRecordDao.query(id);
     }
 }

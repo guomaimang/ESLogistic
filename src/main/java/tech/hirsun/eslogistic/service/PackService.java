@@ -1,6 +1,7 @@
 package tech.hirsun.eslogistic.service;
 
 import tech.hirsun.eslogistic.pojo.bo.Pack;
+import tech.hirsun.eslogistic.pojo.bo.PackRecord;
 import tech.hirsun.eslogistic.pojo.bo.PageBean;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface PackService {
     public void create(Pack pack);
 
     public int count();
+
+    public List<PackRecord> getPackRecords(Long id);
 }

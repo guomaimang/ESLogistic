@@ -1,4 +1,4 @@
-package tech.hirsun.eslogistic.pojo.po;
+package tech.hirsun.eslogistic.pojo.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DBPackRecord {
+public class PackRecord {
     Long id;
     Long packId;
     String message;

@@ -10,7 +10,7 @@ import tech.hirsun.eslogistic.dao.PackRecordDao;
 import tech.hirsun.eslogistic.pojo.bo.Pack;
 import tech.hirsun.eslogistic.pojo.bo.WorkNode;
 import tech.hirsun.eslogistic.pojo.po.DBPack;
-import tech.hirsun.eslogistic.pojo.po.DBPackRecord;
+import tech.hirsun.eslogistic.pojo.bo.PackRecord;
 import tech.hirsun.eslogistic.service.RouterService;
 import tech.hirsun.eslogistic.service.WorkNodeService;
 
@@ -47,8 +47,8 @@ public class NodeProcessor implements Runnable{
                         dbPack.setStatus(1);
                         packDao.update(dbPack);
                         log.info("Station: pack " + pack.getId() + " collected by " + belongToNode.getId());
-                        DBPackRecord dbPackRecord = new DBPackRecord(null, pack.getId(), "Station: pack " + pack.getId() + " collected by " + belongToNode.getId(), new Date());
-                        packRecordDao.insert(dbPackRecord);
+                        PackRecord packRecord = new PackRecord(null, pack.getId(), "Station: pack " + pack.getId() + " collected by " + belongToNode.getId(), new Date());
+                        packRecordDao.insert(packRecord);
                     }
 
                     // process pack has been collected, send it out, process 30 pack 1 minutes
@@ -66,8 +66,8 @@ public class NodeProcessor implements Runnable{
                         dbPack.setStatus(2);
                         packDao.update(dbPack);
                         log.info("Station: pack " + pack.getId() + " sent out by " + belongToNode.getId() + " to " + (nextHop != null ? nextHop.getId() : null));
-                        DBPackRecord dbPackRecord = new DBPackRecord(null, pack.getId(), "Station: pack " + pack.getId() + " sent out by " + belongToNode.getId() + " to " + (nextHop != null ? nextHop.getId() : null), new Date());
-                        packRecordDao.insert(dbPackRecord);
+                        PackRecord packRecord = new PackRecord(null, pack.getId(), "Station: pack " + pack.getId() + " sent out by " + belongToNode.getId() + " to " + (nextHop != null ? nextHop.getId() : null), new Date());
+                        packRecordDao.insert(packRecord);
 
                     }
 
@@ -81,8 +81,8 @@ public class NodeProcessor implements Runnable{
                             dbPack.setStatus(3);
                             packDao.update(dbPack);
                             log.info("Station: pack " + pack.getId() + " received by " + belongToNode.getId());
-                            DBPackRecord dbPackRecord = new DBPackRecord(null, pack.getId(), "Station: pack " + pack.getId() + " received by " + belongToNode.getId(), new Date());
-                            packRecordDao.insert(dbPackRecord);
+                            PackRecord packRecord = new PackRecord(null, pack.getId(), "Station: pack " + pack.getId() + " received by " + belongToNode.getId(), new Date());
+                            packRecordDao.insert(packRecord);
                         }
                     }
 
@@ -98,8 +98,8 @@ public class NodeProcessor implements Runnable{
                         dbPack.setStatus(4);
                         packDao.update(dbPack);
                         log.info("Station: pack " + pack.getId() + " delivered by " + belongToNode.getId());
-                        DBPackRecord dbPackRecord = new DBPackRecord(null, pack.getId(), "Station: pack " + pack.getId() + " delivered by " + belongToNode.getId(), new Date());
-                        packRecordDao.insert(dbPackRecord);
+                        PackRecord packRecord = new PackRecord(null, pack.getId(), "Station: pack " + pack.getId() + " delivered by " + belongToNode.getId(), new Date());
+                        packRecordDao.insert(packRecord);
                     }
 
                 }
@@ -137,8 +137,8 @@ public class NodeProcessor implements Runnable{
                             dbPack.setStatus(2);
                             packDao.update(dbPack);
                             log.info("Center: pack " + pack.getId() + " received by " + belongToNode.getId() + " and to " + (nextHop != null ? nextHop.getId() : null));
-                            DBPackRecord dbPackRecord = new DBPackRecord(null, pack.getId(), "Center: pack " + pack.getId() + " received by " + belongToNode.getId() + " and to " + (nextHop != null ? nextHop.getId() : null), new Date());
-                            packRecordDao.insert(dbPackRecord);
+                            PackRecord packRecord = new PackRecord(null, pack.getId(), "Center: pack " + pack.getId() + " received by " + belongToNode.getId() + " and to " + (nextHop != null ? nextHop.getId() : null), new Date());
+                            packRecordDao.insert(packRecord);
                         }
                     }
                 }
@@ -177,8 +177,8 @@ public class NodeProcessor implements Runnable{
                             dbPack.setStatus(2);
                             packDao.update(dbPack);
                             log.info("Airport: pack " + pack.getId() + " received by " + belongToNode.getId() + " and to " + (nextHop != null ? nextHop.getId() : null));
-                            DBPackRecord dbPackRecord = new DBPackRecord(null, pack.getId(), "Airport: pack " + pack.getId() + " received by " + belongToNode.getId() + " and to " + (nextHop != null ? nextHop.getId() : null), new Date());
-                            packRecordDao.insert(dbPackRecord);
+                            PackRecord packRecord = new PackRecord(null, pack.getId(), "Airport: pack " + pack.getId() + " received by " + belongToNode.getId() + " and to " + (nextHop != null ? nextHop.getId() : null), new Date());
+                            packRecordDao.insert(packRecord);
                         }
                     }
                 }

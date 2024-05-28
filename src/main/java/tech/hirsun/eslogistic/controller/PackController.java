@@ -26,7 +26,11 @@ public class PackController {
     @GetMapping("/info")
     public Result info(@RequestParam Long id) {
         return Result.success(packService.info(id));
+    }
 
+    @GetMapping("/packrecords")
+    public Result packrecords(@RequestParam Long id) {
+        return Result.success(packService.getPackRecords(id));
     }
 
     @PostMapping("/create")
