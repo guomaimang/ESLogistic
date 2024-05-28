@@ -1,8 +1,7 @@
 package tech.hirsun.eslogistic.service;
 
+import tech.hirsun.eslogistic.pojo.bo.PageBean;
 import tech.hirsun.eslogistic.pojo.bo.WorkNode;
-
-import java.util.List;
 import java.util.Map;
 
 public interface WorkNodeService {
@@ -15,5 +14,10 @@ public interface WorkNodeService {
     public Map<String, WorkNode> getCentersMap();
     public Map<String, WorkNode> getAirportsMap();
 
+    public PageBean list(String id, int pageNum, int pageSize);
+
+    public WorkNode info(String id);
+
+    public int count(String id);
 
 }

@@ -1,10 +1,8 @@
 package tech.hirsun.eslogistic.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import tech.hirsun.eslogistic.pojo.bo.Pack;
 import tech.hirsun.eslogistic.result.Result;
 import tech.hirsun.eslogistic.service.PackService;
 
@@ -17,22 +15,28 @@ public class PackController {
     PackService packService;
 
     @GetMapping("/list")
-    public Result list(){
-
+    public Result list(@RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
+                       @RequestParam(name = "pageSize",defaultValue = "10") Integer pageSize,
+                       @RequestParam(name = "id", required = false) Long id,
+                       @RequestParam(name = "keyword", required = false) String keyword,
+                       @RequestParam(name = "status", required = false) Integer status) {
+        return Result.success(packService.list(id, keyword, pageNum, pageSize, status));
     }
 
     @GetMapping("/info")
-    public Result info() {
+    public Result info(@RequestParam Long id) {
+        return Result.success(packService.info(id));
 
     }
 
     @PostMapping("/create")
-    public Result create() {
-
+    public Result create(@RequestBody Pack pack) {
+        packService.create(pack);
+        return Result.success();
     }
 
     @GetMapping("/count")
     public Result count() {
-
+        return Result.success(packService.count(null, null));
     }
 }
