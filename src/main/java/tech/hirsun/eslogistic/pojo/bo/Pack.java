@@ -1,6 +1,7 @@
 package tech.hirsun.eslogistic.pojo.bo;
 
 import lombok.Data;
+import tech.hirsun.eslogistic.pojo.po.DBPack;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,4 +44,26 @@ public class Pack {
     private List<String> plannedRoute = new ArrayList<>();
 
     private Date frozenTime;
+
+    public DBPack toDBPack() {
+        DBPack dbPack = new DBPack();
+        dbPack.setId(id);
+
+        dbPack.setSenderName(senderName);
+        dbPack.setSenderPhone(senderPhone);
+        dbPack.setSenderWorkNodeId(senderWorkNode.getId());
+
+        dbPack.setReceiverName(receiverName);
+        dbPack.setReceiverPhone(receiverPhone);
+        dbPack.setReceiverWorkNodeId(receiverWorkNode.getId());
+
+        dbPack.setPackType(packType);
+        dbPack.setStatus(status);
+        if (currentWorkNode != null){
+            dbPack.setCurrentWorkNodeId(currentWorkNode.getId());
+
+        }
+        dbPack.setFrozenTime(frozenTime);
+        return dbPack;
+    }
 }

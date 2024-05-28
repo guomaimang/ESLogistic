@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.hirsun.eslogistic.dao.WorkNodeDao;
+import tech.hirsun.eslogistic.pojo.bo.PageBean;
 import tech.hirsun.eslogistic.pojo.bo.WorkNode;
 import tech.hirsun.eslogistic.pojo.po.DBWorkNode;
 import tech.hirsun.eslogistic.service.WorkNodeService;
@@ -56,6 +57,21 @@ public class WorkNodeServiceImpl implements WorkNodeService {
             }
         }
 
+    }
+
+    @Override
+    public PageBean list(String id, int pageNum, int pageSize) {
+        return null;
+    }
+
+    @Override
+    public WorkNode info(String id) {
+        return null;
+    }
+
+    @Override
+    public int count(String id) {
+        return 0;
     }
 
 

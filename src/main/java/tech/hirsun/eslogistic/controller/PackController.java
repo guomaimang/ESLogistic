@@ -37,6 +37,6 @@ public class PackController {
 
     @GetMapping("/count")
     public Result count() {
-        return Result.success(packService.count(null, null));
+        return Result.success(packService.count());
     }
 }

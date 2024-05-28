@@ -13,5 +13,5 @@ public interface PackService {
 
     public void create(Pack pack);
 
-    public int count(Long id, String keyword);
+    public int count();
 }

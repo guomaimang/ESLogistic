@@ -11,6 +11,7 @@
             <if test="receiverWorkNodeId != null and receiverWorkNodeId != ''"> AND receiver_work_node_id = #{receiverWorkNodeId} </if>
             <if test="status != null"> AND status = #{status} </if>
             <if test="currentWorkNodeId != null and currentWorkNodeId != ''"> AND current_work_node_id = #{currentWorkNodeId} </if>
+            <if test="keyword != null and keyword != ''"> AND (sender_name = #{keyword} OR receiver_name = #{keyword} OR sender_phone = #{keyword} OR receiver_phone = #{keyword} ) </if>
         </where>
             ORDER BY id DESC LIMIT #{start}, #{pageSize}
     </select>
@@ -26,4 +27,17 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(*) FROM pack
+        <where>
+            <if test="id != null"> AND id = #{id}, </if>
+            <if test="senderWorkNodeId != null and senderWorkNodeId != ''"> AND sender_work_node_id = #{senderWorkNodeId} </if>
+            <if test="receiverWorkNodeId != null and receiverWorkNodeId != ''"> AND receiver_work_node_id = #{receiverWorkNodeId} </if>
+            <if test="status != null"> AND status = #{status} </if>
+            <if test="currentWorkNodeId != null and currentWorkNodeId != ''"> AND current_work_node_id = #{currentWorkNodeId} </if>
+            <if test="keyword != null and keyword != ''"> AND (sender_name = #{keyword} OR receiver_name = #{keyword} OR sender_phone = #{keyword} OR receiver_phone = #{keyword} ) </if>
+        </where>
+    </select>
+
 </mapper>
