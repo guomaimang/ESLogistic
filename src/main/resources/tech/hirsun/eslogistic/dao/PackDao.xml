@@ -12,7 +12,7 @@
             <if test="receiverWorkNodeId != null and receiverWorkNodeId != ''"> AND receiver_work_node_id = #{receiverWorkNodeId} </if>
             <if test="status != null"> AND status = #{status} </if>
             <if test="currentWorkNodeId != null and currentWorkNodeId != ''"> AND current_work_node_id = #{currentWorkNodeId} </if>
-            <if test="keyword != null and keyword != ''"> AND (sender_name = #{keyword} OR receiver_name = #{keyword} OR sender_phone = #{keyword} OR receiver_phone = #{keyword} ) </if>
+            <if test="keyword != null and keyword != ''"> AND (sender_name = #{keyword} OR receiver_name = #{keyword} OR sender_phone = #{keyword} OR receiver_phone = #{keyword} OR id = #{keyword}) </if>
         </where>
             ORDER BY id DESC LIMIT #{start}, #{pageSize}
     </select>

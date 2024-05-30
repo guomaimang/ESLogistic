@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home - ESlogistic</title>
+    <title>Pack List - ESlogistic</title>
     <!-- jqgrid ui -->
     <link href="plugins/jqgrid-5.7.0/ui.jqgrid-bootstrap4.css" rel="stylesheet"/>
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.css">
@@ -65,7 +65,7 @@
 
                     <li class="nav-header">Pack Service</li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pack-list.html">
+                        <a class="nav-link" href="index.html">
                             <i class="nav-icon fa fa-cube"></i>
                             <p>
                                 Pack List
@@ -82,15 +82,6 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="enquiry-pack.html">
-                            <i class="nav-icon fa fa-search"></i>
-                            <p>
-                                Enquiry Pack
-                            </p>
-                        </a>
-                    </li>
-
 
 
                 </ul>
@@ -101,14 +92,6 @@
 
 
                     <li class="nav-header">Administration</li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="nav-icon fa fa-tachometer"></i>
-                            <p>
-                                Panel
-                            </p>
-                        </a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="worknode.html">
@@ -139,10 +122,12 @@
 
             </nav>
             <!-- /.sidebar-menu -->
+
         </div>
         <!-- /.sidebar -->
     </aside>
     <!-- /.Main Sidebar Container -->
+
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -151,14 +136,9 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Real-time Driver List</h1>
+                        <h1 class="m-0 text-dark">Pack List</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-10">
-                        Last Update Time: <span id="lastUpdateTime"> ...</span>
-                        &nbsp; &nbsp; &nbsp; &nbsp;
-                        Cut Off Time: <span id="cutoffTime"> ... </span>
-                        &nbsp; &nbsp; &nbsp; &nbsp;
-                        Update Countdown: <span id="updateCountDown"> ... </span>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -175,6 +155,8 @@
                                 <button class="btn btn-info" onclick="reload()"><i
                                         class="fa fa-refresh"></i>&nbsp;Refresh
                                 </button>
+                                <label for="searchInput"></label><input type="text" id="searchInput">
+                                <button id="searchButton">Search ID/Name/Phone</button>
                             </div>
                             <table id="jqGrid" class="table table-bordered">
                             </table>
@@ -216,7 +198,6 @@
 <script src="plugins/jqgrid-5.7.0/jquery.jqGrid.min.js"></script>
 
 <script src="dist/js/index.js"></script>
-
 
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.js"></script>

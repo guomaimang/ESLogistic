@@ -1,4 +1,3 @@
-
 $(function () {
 
     //隐藏错误提示框
@@ -6,20 +5,15 @@ $(function () {
 
     $("#jqGrid").jqGrid({
         // 设置API
-        url: 'https://api.hoptraf.hirsun.tech/api/driver/list',
+        url: '/pack/list',
         datatype: "json",
         colModel: [
             // 设置列表表头
-            {label: 'DriverID', name: 'driverID', index: 'driverID', width: 30, key: true, hidden: false},
-            {label: 'CarPlateNumber', name: 'carPlateNumber', index: 'carPlateNumber', width: 30},
-            {label: 'Speed', name: 'speed', index: 'speed', width: 30, editable: true, formatter: kmhFormatter},
-            {label: 'RapidlySpeedup', name: 'isRapidlySpeedup', index: 'isRapidlySpeedup', width: 30, editable: true, formatter: statusFormatter},
-            {label: 'RapidlySlowdown', name: 'isRapidlySlowdown', index: 'isRapidlySlowdown', width: 30, editable: true, formatter: statusFormatter},
-            {label: 'NeutralSlide', name: 'isNeutralSlide', index: 'isNeutralSlide', width: 30, editable: true, formatter: statusFormatter},
-            {label: 'OverSpeed', name: 'isOverspeed', index: 'isOverspeed', width: 30, editable: true, formatter: statusFormatter},
-            {label: 'FatigueDriving', name: 'isFatigueDriving', index: 'isFatigueDriving', width: 30, editable: true, formatter: statusFormatter},
-            {label: 'HthrottleStop', name: 'isHthrottleStop', index: 'isHthrottleStop', width: 30, editable: true, formatter: statusFormatter},
-            {label: 'OilLeak', name: 'isOilLeak', index: 'isOilLeak', width: 30, editable: true, formatter: statusFormatter},
+            {label: 'ID', name: 'id', index: 'id', width: 20, key: true, hidden: false},
+            {label: 'Sender Phone', name: 'senderPhone', index: 'senderPhone', width: 30},
+            {label: 'Receiver Phone', name: 'receiverPhone', index: 'receiverPhone', width: 30},
+            {label: 'Type', name: 'packType', index: 'packType', width: 30, editable: true, formatter: typeFormatter},
+            {label: 'Status', name: 'status', index: 'status', width: 30, editable: true, formatter: statusFormatter},
         ],
         height: 560,
         rowNum: 10,
@@ -32,14 +26,14 @@ $(function () {
         multiselect: false,
         pager: "#jqGridPager",
         jsonReader: {
-            root: "data",
+            root: "data.rows",
             records: "data.count",
             page: "data.currentPage",
             total: "data.totalPage",
         },
         prmNames: {
-            page: "pagenum",
-            rows: "pagesize",
+            page: "pageNum",
+            rows: "pageSize",
             order: "order",
         },
         gridComplete: function () {
@@ -50,12 +44,21 @@ $(function () {
             //返回选中的id
             let selectedRowIndex = $("#" + this.id).getGridParam('selrow');
             //返回点击这行xlmc的值
-            window.location.href="/driver.html?driverid=" + selectedRowIndex;
+            window.location.href="/pack-details.html?id=" + selectedRowIndex;
         },
     });
 
     $(window).resize(function () {
         $("#jqGrid").setGridWidth($(".card-body").width());
+    });
+
+    // 搜索功能
+    $("#searchButton").click(function(){
+        let searchInput = $("#searchInput").val(); //获取输入框的值
+        $("#jqGrid").jqGrid('setGridParam',{
+            postData: {'keyword': searchInput}, //设置postData参数
+            page: 1
+        }).trigger("reloadGrid"); //重新加载JqGrid
     });
 
 });
@@ -68,62 +71,34 @@ function reload() {
     $("#jqGrid").jqGrid('setGridParam', {
         page: page
     }).trigger("reloadGrid");
-
-    updateTimeText();
 }
 
+/*
+    0: Waiting for pickup
+    1: In workNode
+    2: In transit
+    3. need to be delivered
+    4: Delivered
+ */
 function statusFormatter(cellValue) {
-    return cellValue == 1 ? "Yes" : "No";
-}
-
-function kmhFormatter(cellValue) {
-    return cellValue + " km/h";
-}
-
-function updateTimeText() {
-    $.ajax({
-        url: "https://api.hoptraf.hirsun.tech/api/app/getcutofftime",
-        type: "GET",
-        success: function (r) {
-            if (r.code === 0) {
-                document.getElementById("cutoffTime").innerText = utcToLocalFormatter(r.data);
-                document.getElementById("lastUpdateTime").innerText = new Date().toLocaleString();
-            }
-        }
-    });
-}
-
-// 倒计时
-let countdown = 30;
-let intervalId = setInterval(function() {
-    // 每秒减少倒计时的时间
-    countdown--;
-    // 更新页面上的倒计时显示
-    updateCountdownDisplay();
-
-    // 如果倒计时结束
-    if (countdown === 0) {
-        // 停止定时器
-        clearInterval(intervalId);
-
-        // 执行倒计时结束后执行
-        reload();
-
-        // 重置倒计时的时间
-        countdown = 30;
-        intervalId = setInterval(arguments.callee, 1000);
+    switch (cellValue) {
+        case 0:
+            return "Waiting for pickup";
+        case 1:
+            return "In workNode";
+        case 2:
+            return "In transit";
+        case 3:
+            return "need to be delivered";
+        case 4:
+            return "Delivered";
     }
-}, 1000);
-
-// 定义一个函数用于更新页面上显示的倒计时
-function updateCountdownDisplay() {
-    // 假设你有一个 id 为 'countdown' 的元素用于显示倒计时
-    document.getElementById('updateCountDown').innerText = countdown + 's';
 }
 
-function utcToLocalFormatter(cellValue) {
-    let date = new Date(cellValue);
-    return date.toLocaleString();
+/*
+ 0: Standard
+ 1: Fast
+ */
+function typeFormatter(cellValue) {
+    return cellValue == 1 ? "Express" : "Normal";
 }
-
-updateTimeText();

@@ -3,6 +3,7 @@ package tech.hirsun.eslogistic.service;
 import tech.hirsun.eslogistic.pojo.bo.Pack;
 import tech.hirsun.eslogistic.pojo.bo.PackRecord;
 import tech.hirsun.eslogistic.pojo.bo.PageBean;
+import tech.hirsun.eslogistic.pojo.po.DBPack;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface PackService {
 
     public Pack info(Long id);
 
-    public void create(Pack pack);
+    public void create(DBPack dbPack);
 
     public int count();
 

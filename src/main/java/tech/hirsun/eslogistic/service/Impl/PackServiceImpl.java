@@ -12,6 +12,7 @@ import tech.hirsun.eslogistic.service.PackService;
 import tech.hirsun.eslogistic.service.WorkNodeService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,8 +49,9 @@ public class PackServiceImpl implements PackService {
     }
 
     @Override
-    public void create(Pack pack) {
-        DBPack dbPack = new DBPack();
+    public void create(DBPack dbPack) {
+        dbPack.setStatus(0);
+        dbPack.setFrozenTime(new Date());
         packDao.insert(dbPack);
     }
 
