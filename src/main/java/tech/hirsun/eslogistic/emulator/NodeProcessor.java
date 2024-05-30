@@ -182,7 +182,7 @@ public class NodeProcessor implements Runnable{
                         }
                     }
                 }
-                Thread.sleep(1000 * 10);
+                Thread.sleep(1000 * 60);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
