@@ -66,12 +66,7 @@ public class WorkNodeServiceImpl implements WorkNodeService {
         int start = (pageNum - 1) * pageSize;
         List<DBWorkNode> dbWorkNodes = workNodeDao.query(id, start, pageSize);
 
-        List<WorkNode> workNodes = new ArrayList<>();
-        for (DBWorkNode dbWorkNode : dbWorkNodes) {
-            workNodes.add(dbWorkNode.toWorkNode());
-        }
-
-        return new PageBean(count, workNodes, Math.floorDiv(count, pageSize) + 1, pageNum);
+        return new PageBean(count, dbWorkNodes, Math.floorDiv(count, pageSize) + 1, pageNum);
     }
 
     @Override

@@ -27,7 +27,6 @@ public class WorkNodeController {
     @GetMapping("/info")
     public Result info(@RequestParam String id) {
         return Result.success(workNodeService.info(id));
-
     }
 
     @GetMapping("/count")
