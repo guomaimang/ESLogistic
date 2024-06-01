@@ -24,10 +24,10 @@ public class Customer {
     @Autowired
     private WorkNodeService workNodeService;
 
-    @Scheduled(cron ="*/10 * * * * ?")
+    @Scheduled(cron ="*/50 * * * * ?")
     public void batchGenPack() {
         // randomly gen 3 packs
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             DBPack pack = new DBPack();
 
             // random gen name with 6 letters
